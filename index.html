@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Heart Cafe - Varanasi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            background: #0a0a0a;
+        }
+
+        .intro-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1410 100%);
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1580634279133-4d94e4e53d6a?q=80&w=2000') center/cover;
+            opacity: 0;
+            animation: bgFadeIn 2s ease-in forwards 0.5s;
+        }
+
+        .background-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.92) 0%, rgba(26, 20, 16, 0.88) 100%);
+        }
+
+        .content-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: contentFadeIn 1.5s ease-out forwards 1s;
+        }
+
+        .logo-section {
+            margin-bottom: 2rem;
+        }
+
+        .cafe-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            color: #FFFFFF;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .heart-icon {
+            display: inline-block;
+            color: #C9A961;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            animation: heartBeat 2s ease-in-out infinite;
+            margin: 0 0.3rem;
+            vertical-align: middle;
+        }
+
+        .divider {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #C9A961, transparent);
+            margin: 2rem auto;
+            opacity: 0;
+            animation: dividerExpand 1s ease-out forwards 1.5s;
+        }
+
+        .tagline {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+            font-weight: 300;
+            color: #C9A961;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-weight: 400;
+            color: #FFFFFF;
+            font-style: italic;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .enter-button {
+            position: relative;
+            display: inline-block;
+            padding: 1rem 3rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #0a0a0a;
+            background: #C9A961;
+            border: 2px solid #C9A961;
+            text-decoration: none;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: buttonFadeIn 1s ease-out forwards 2s;
+        }
+
+        .enter-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: #FFFFFF;
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .enter-button:hover {
+            color: #C9A961;
+            border-color: #FFFFFF;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(201, 169, 97, 0.3);
+        }
+
+        .enter-button:hover::before {
+            left: 0;
+        }
+
+        .location {
+            margin-top: 2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(0.75rem, 2vw, 0.9rem);
+            font-weight: 300;
+            color: #FFFFFF;
+            opacity: 0.7;
+            letter-spacing: 2px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: scrollFadeIn 1s ease-out forwards 2.5s;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, #C9A961);
+            margin: 0 auto 10px;
+            animation: scrollLine 2s ease-in-out infinite;
+        }
+
+        /* Decorative elements */
+        .decoration {
+            position: absolute;
+            border: 1px solid rgba(201, 169, 97, 0.2);
+            pointer-events: none;
+        }
+
+        .decoration.top-left {
+            top: 5%;
+            left: 5%;
+            width: 60px;
+            height: 60px;
+            border-right: none;
+            border-bottom: none;
+            animation: decorFadeIn 1.5s ease-out forwards 1.5s, decorPulse 4s ease-in-out infinite 3s;
+            opacity: 0;
+        }
+
+        .decoration.bottom-right {
+            bottom: 5%;
+            right: 5%;
+            width: 60px;
+            height: 60px;
+            border-left: none;
+            border-top: none;
+            animation: decorFadeIn 1.5s ease-out forwards 1.5s, decorPulse 4s ease-in-out infinite 3s;
+            opacity: 0;
+        }
+
+        /* Fade out transition */
+        .fade-out {
+            animation: fadeOutPage 1s ease-out forwards;
+        }
+
+        /* Animations */
+        @keyframes bgFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes contentFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes dividerExpand {
+            from {
+                opacity: 0;
+                width: 0;
+            }
+            to {
+                opacity: 1;
+                width: 120px;
+            }
+        }
+
+        @keyframes buttonFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scrollFadeIn {
+            to {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes heartBeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            10%, 30% {
+                transform: scale(1.1);
+            }
+            20%, 40% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes scrollLine {
+            0% {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes decorFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes decorPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes fadeOutPage {
+            to {
+                opacity: 0;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 1.5rem;
+            }
+
+            .divider {
+                width: 80px;
+            }
+
+            .enter-button {
+                padding: 0.875rem 2.5rem;
+                font-size: 0.8rem;
+            }
+
+            .decoration {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tagline {
+                letter-spacing: 2px;
+            }
+
+            .enter-button {
+                padding: 0.75rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-wrapper" id="introWrapper">
+        <div class="background-image"></div>
+        
+        <div class="decoration top-left"></div>
+        <div class="decoration bottom-right"></div>
+
+        <div class="content-container">
+            <div class="logo-section">
+                <h1 class="cafe-name">
+                    I <span class="heart-icon">♥</span> Cafe
+                </h1>
+            </div>
+
+            <div class="divider"></div>
+
+            <p class="tagline">Where Tradition Meets Luxury</p>
+            <p class="subtitle">A Divine Coffee Experience</p>
+
+            <a href="home.html" class="enter-button" id="enterBtn">
+                Explore
+            </a>
+
+            <p class="location">Varanasi, India</p>
+        </div>
+
+        <div class="scroll-indicator"></div>
+    </div>
+
+    <script>
+        // Smooth transition when clicking Enter button
+        document.getElementById('enterBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const wrapper = document.getElementById('introWrapper');
+            wrapper.classList.add('fade-out');
+            
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 1000);
+        });
+
+        // Prevent scrolling on intro page
+        document.body.style.overflow = 'hidden';
+    </script>
+</body>
+</html>

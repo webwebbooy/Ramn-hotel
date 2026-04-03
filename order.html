@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order & Contact - I Heart Cafe Varanasi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #C9A961;
+            --white: #FFFFFF;
+            --dark: #0a0a0a;
+            --dark-brown: #1a1410;
+            --gray: #888888;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--dark);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation - Same as other pages */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+        }
+
+        .navbar.scrolled {
+            padding: 0.75rem 5%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 1px;
+            z-index: 1001;
+        }
+
+        .logo .heart {
+            color: var(--gold);
+            margin: 0 0.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .order-btn {
+            padding: 0.6rem 1.5rem;
+            background: var(--gold);
+            color: var(--dark);
+            border: 2px solid var(--gold);
+            font-weight: 500;
+            border-radius: 0;
+            transition: all 0.3s ease;
+        }
+
+        .order-btn:hover {
+            background: transparent;
+            color: var(--gold);
+        }
+
+        .order-btn::after {
+            display: none;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 150px 5% 80px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95), rgba(26, 20, 16, 0.9)), 
+                        url('https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=2000') center/cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(10, 10, 10, 0.7) 100%);
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-subtitle {
+            font-size: 0.95rem;
+            letter-spacing: 4px;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .page-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 1.5rem auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        /* Order Form Section */
+        .order-section {
+            background: var(--dark-brown);
+            border: 1px solid rgba(201, 169, 97, 0.2);
+            padding: 3rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+        }
+
+        .section-description {
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .order-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--white);
+            letter-spacing: 0.5px;
+        }
+
+        .required {
+            color: var(--gold);
+            margin-left: 0.25rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 0.9rem 1.2rem;
+            background: var(--dark);
+            border: 1px solid rgba(201, 169, 97, 0.3);
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(201, 169, 97, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Radio Buttons */
+        .radio-group {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--gold);
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            margin: 0;
+        }
+
+        /* Address field initially hidden */
+        .address-field {
+            display: none;
+        }
+
+        .address-field.show {
+            display: flex;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            padding: 1.2rem 3rem;
+            background: var(--gold);
+            color: var(--dark);
+            border: 2px solid var(--gold);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .submit-btn:hover {
+            color: var(--gold);
+            border-color: var(--white);
+        }
+
+        .submit-btn:hover::before {
+            left: 0;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            padding: 1.5rem;
+            background: rgba(201, 169, 97, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            animation: slideDown 0.5s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            position: sticky;
+            top: 120px;
+        }
+
+        .contact-card {
+            background: var(--dark-brown);
+            border: 1px solid rgba(201, 169, 97, 0.2);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .contact-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(201, 169, 97, 0.1);
+            border: 1px solid rgba(201, 169, 97, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details h4 {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-details p {
+            color: var(--white);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .contact-details a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-details a:hover {
+            color: var(--gold);
+        }
+
+        /* Hours List */
+        .hours-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            color: var(--white);
+        }
+
+        .hours-list .day {
+            color: var(--gray);
+        }
+
+        /* Social Icons */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border: 1px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--gold);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        /* Map Section */
+        .map-container {
+            width: 100%;
+            height: 350px;
+            border: 1px solid rgba(201, 169, 97, 0.2);
+            overflow: hidden;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(100%) invert(92%) contrast(83%);
+        }
+
+        /* Quick Order Buttons */
+        .quick-order {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .quick-btn {
+            flex: 1;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            border: 1px solid rgba(201, 169, 97, 0.3);
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .quick-btn:hover {
+            background: rgba(201, 169, 97, 0.1);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .quick-btn i {
+            font-size: 1.3rem;
+        }
+
+        .whatsapp-btn {
+            background: rgba(37, 211, 102, 0.1);
+            border-color: rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-btn:hover {
+            background: #25D366;
+            border-color: #25D366;
+            color: var(--white);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            border-top: 1px solid rgba(201, 169, 97, 0.2);
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(201, 169, 97, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Scroll to Top */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .scroll-top:hover {
+            background: var(--white);
+            transform: translateY(-5px);
+        }
+
+        .scroll-top.active {
+            display: flex;
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                flex-direction: column;
+                background: rgba(10, 10, 10, 0.98);
+                width: 70%;
+                max-width: 300px;
+                height: 100vh;
+                padding: 100px 2rem 2rem;
+                gap: 1.5rem;
+                align-items: flex-start;
+                transition: right 0.4s ease;
+                border-left: 1px solid rgba(201, 169, 97, 0.2);
+                overflow-y: auto;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .contact-section {
+                position: static;
+            }
+
+            .order-section {
+                padding: 2rem;
+            }
+
+            .contact-card {
+                padding: 2rem;
+            }
+
+            .quick-order {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 120px 5% 60px;
+            }
+
+            .main-content {
+                padding: 3rem 5%;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .order-section,
+            .contact-card {
+                padding: 1.5rem;
+            }
+
+            .section-title,
+            .contact-card h3 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="logo">I <span class="heart">Heart</span> Cafe</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="home.html#why-choose">Why Us</a></li>
+                <li><a href="order.html" class="order-btn active">Order Online</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-content">
+            <p class="page-subtitle">Get In Touch</p>
+            <h1 class="page-title">Order & Contact</h1>
+            <div class="divider"></div>
+            <p class="page-description">
+                Place your order or reach out to us for any inquiries. We're here to serve you!
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="content-grid">
+            <!-- Order Form Section -->
+            <div class="order-section">
+                <h2 class="section-title">Place Your Order</h2>
+                <p class="section-description">Fill out the form below and we'll prepare your order with love</p>
+
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Order Placed Successfully!</h3>
+                    <p>Thank you for your order. We'll contact you shortly to confirm.</p>
+                </div>
+
+                <form class="order-form" id="orderForm">
+                    <div class="form-group">
+                        <label for="name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+91 XXXXX XXXXX" pattern="[0-9+\s\-()]+">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="order">Order Details <span class="required">*</span></label>
+                        <textarea id="order" name="order" required placeholder="Please list the items you'd like to order (e.g., 2x Cappuccino, 1x Chocolate Cake, etc.)"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instructions">Special Instructions</label>
+                        <textarea id="instructions" name="instructions" placeholder="Any dietary requirements, allergies, or special requests?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Delivery Option <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="delivery" name="orderType" value="delivery" required>
+                                <label for="delivery">Home Delivery</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="pickup" name="orderType" value="pickup" required>
+                                <label for="pickup">Pickup from Cafe</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group address-field" id="addressField">
+                        <label for="address">Delivery Address <span class="required">*</span></label>
+                        <textarea id="address" name="address" placeholder="Enter your complete delivery address"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="time">Preferred Time</label>
+                        <input type="text" id="time" name="time" placeholder="e.g., 2:00 PM or ASAP">
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-shopping-cart"></i> Place Order
+                    </button>
+                </form>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <div class="contact-card">
+                    <h3>Contact Information</h3>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Location</h4>
+                            <p>123 Assi Ghat Road,<br>Varanasi, Uttar Pradesh<br>India - 221005</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Phone</h4>
+                            <p><a href="tel:+919876543210">+91 98765 43210</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p><a href="mailto:hello@iheartcafe.in">hello@iheartcafe.in</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Opening Hours</h4>
+                            <ul class="hours-list">
+                                <li><span class="day">Monday - Friday</span> <span>7:00 AM - 11:00 PM</span></li>
+                                <li><span class="day">Saturday</span> <span>8:00 AM - 12:00 AM</span></li>
+                                <li><span class="day">Sunday</span> <span>8:00 AM - 11:00 PM</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Order Buttons -->
+                <div class="quick-order">
+                    <a href="https://wa.me/919876543210?text=Hi! I'd like to place an order from I Heart Cafe" class="quick-btn whatsapp-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        Order via WhatsApp
+                    </a>
+                </div>
+
+                <div class="quick-order">
+                    <a href="tel:+919876543210" class="quick-btn">
+                        <i class="fas fa-phone"></i>
+                        Call to Order
+                    </a>
+                </div>
+
+                <!-- Map -->
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3607.5738879440844!2d82.98512931501068!3d25.28074938386219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e2db76febcf4d%3A0x68131710853ff0b5!2sAssi%20Ghat!5e0!3m2!1sen!2sin!4v1635000000000!5m2!1sen!2sin" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-logo">I <span style="color: var(--gold);">Heart</span> Cafe</h3>
+                <p class="footer-description">
+                    Where tradition meets luxury in the heart of Varanasi. Experience the finest coffee culture in India's spiritual capital.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul style="list-style: none; color: var(--gray);">
+                    <li style="margin-bottom: 0.75rem;"><a href="home.html" style="color: var(--gray); text-decoration: none;">Home</a></li>
+                    <li style="margin-bottom: 0.75rem;"><a href="menu.html" style="color: var(--gray); text-decoration: none;">Menu</a></li>
+                    <li style="margin-bottom: 0.75rem;"><a href="order.html" style="color: var(--gray); text-decoration: none;">Order Online</a></li>
+                    <li style="margin-bottom: 0.75rem;"><a href="#" style="color: var(--gray); text-decoration: none;">Gallery</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul style="list-style: none; color: var(--gray);">
+                    <li style="margin-bottom: 0.75rem;">123 Assi Ghat Road</li>
+                    <li style="margin-bottom: 0.75rem;">Varanasi, UP 221005</li>
+                    <li style="margin-bottom: 0.75rem;">+91 98765 43210</li>
+                    <li style="margin-bottom: 0.75rem;">hello@iheartcafe.in</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 I Heart Cafe. All Rights Reserved. | Designed with <span style="color: var(--gold);">♥</span> in Varanasi</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Show/hide address field based on delivery option
+        const deliveryRadio = document.getElementById('delivery');
+        const pickupRadio = document.getElementById('pickup');
+        const addressField = document.getElementById('addressField');
+        const addressInput = document.getElementById('address');
+
+        deliveryRadio.addEventListener('change', () => {
+            addressField.classList.add('show');
+            addressInput.required = true;
+        });
+
+        pickupRadio.addEventListener('change', () => {
+            addressField.classList.remove('show');
+            addressInput.required = false;
+        });
+
+        // Form submission
+        const orderForm = document.getElementById('orderForm');
+        const successMessage = document.getElementById('successMessage');
+
+        orderForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                order: document.getElementById('order').value,
+                instructions: document.getElementById('instructions').value,
+                orderType: document.querySelector('input[name="orderType"]:checked').value,
+                address: document.getElementById('address').value,
+                time: document.getElementById('time').value
+            };
+
+            // Log form data (in production, send to server/EmailJS)
+            console.log('Order Data:', formData);
+
+            // Show success message
+            successMessage.classList.add('show');
+            
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Reset form
+            orderForm.reset();
+            addressField.classList.remove('show');
+
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 5000);
+
+            // Optional: Send email using EmailJS (uncomment and configure)
+            /*
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", formData)
+                .then(() => {
+                    successMessage.classList.add('show');
+                    orderForm.reset();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('Something went wrong. Please try calling us instead.');
+                });
+            */
+        });
+
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('active');
+            } else {
+                scrollTopBtn.classList.remove('active');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>

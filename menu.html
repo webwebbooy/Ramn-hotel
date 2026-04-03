@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Menu - I Heart Cafe Varanasi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #C9A961;
+            --white: #FFFFFF;
+            --dark: #0a0a0a;
+            --dark-brown: #1a1410;
+            --gray: #888888;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--dark);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation - Same as home.html */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+        }
+
+        .navbar.scrolled {
+            padding: 0.75rem 5%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 1px;
+            z-index: 1001;
+        }
+
+        .logo .heart {
+            color: var(--gold);
+            margin: 0 0.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .order-btn {
+            padding: 0.6rem 1.5rem;
+            background: var(--gold);
+            color: var(--dark);
+            border: 2px solid var(--gold);
+            font-weight: 500;
+            border-radius: 0;
+            transition: all 0.3s ease;
+        }
+
+        .order-btn:hover {
+            background: transparent;
+            color: var(--gold);
+        }
+
+        .order-btn::after {
+            display: none;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 150px 5% 80px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95), rgba(26, 20, 16, 0.9)), 
+                        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2000') center/cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(10, 10, 10, 0.7) 100%);
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-subtitle {
+            font-size: 0.95rem;
+            letter-spacing: 4px;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .page-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 1.5rem auto;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 4rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 4rem;
+            padding: 1rem;
+            background: rgba(26, 20, 16, 0.3);
+            border: 1px solid rgba(201, 169, 97, 0.2);
+        }
+
+        .category-tab {
+            padding: 0.75rem 2rem;
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(201, 169, 97, 0.3);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .category-tab:hover {
+            background: rgba(201, 169, 97, 0.1);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .category-tab.active {
+            background: var(--gold);
+            color: var(--dark);
+            border-color: var(--gold);
+        }
+
+        /* Menu Category */
+        .menu-category {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .menu-category.active {
+            display: block;
+        }
+
+        .category-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .category-description {
+            color: var(--gray);
+            font-size: 1.05rem;
+        }
+
+        /* Menu Items Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-item {
+            background: var(--dark-brown);
+            border: 1px solid rgba(201, 169, 97, 0.2);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gold);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateX(5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(201, 169, 97, 0.1);
+        }
+
+        .menu-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            gap: 1rem;
+        }
+
+        .item-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--white);
+            flex: 1;
+        }
+
+        .item-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--gold);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .item-description {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .item-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: rgba(201, 169, 97, 0.1);
+            color: var(--gold);
+            font-size: 0.75rem;
+            border: 1px solid rgba(201, 169, 97, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .item-icon {
+            color: var(--gold);
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Special Items */
+        .special-item {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.05) 0%, var(--dark-brown) 100%);
+        }
+
+        .special-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gold);
+            color: var(--dark);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Order CTA Section */
+        .order-cta {
+            text-align: center;
+            padding: 4rem 5%;
+            background: var(--dark-brown);
+            border-top: 1px solid rgba(201, 169, 97, 0.2);
+            border-bottom: 1px solid rgba(201, 169, 97, 0.2);
+        }
+
+        .cta-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-large {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--gold);
+            color: var(--dark);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 2px solid var(--gold);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-large::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn-large:hover {
+            color: var(--gold);
+            border-color: var(--white);
+        }
+
+        .btn-large:hover::before {
+            left: 0;
+        }
+
+        /* Footer - Same as home.html */
+        .footer {
+            background: var(--dark);
+            border-top: 1px solid rgba(201, 169, 97, 0.2);
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: var(--gold);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        .contact-info i {
+            color: var(--gold);
+            margin-top: 0.25rem;
+        }
+
+        .hours-list {
+            list-style: none;
+            color: var(--gray);
+        }
+
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(201, 169, 97, 0.1);
+        }
+
+        .hours-list li:last-child {
+            border-bottom: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(201, 169, 97, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* Scroll to Top */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .scroll-top:hover {
+            background: var(--white);
+            transform: translateY(-5px);
+        }
+
+        .scroll-top.active {
+            display: flex;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                flex-direction: column;
+                background: rgba(10, 10, 10, 0.98);
+                width: 70%;
+                max-width: 300px;
+                height: 100vh;
+                padding: 100px 2rem 2rem;
+                gap: 1.5rem;
+                align-items: flex-start;
+                transition: right 0.4s ease;
+                border-left: 1px solid rgba(201, 169, 97, 0.2);
+                overflow-y: auto;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-tabs {
+                gap: 0.5rem;
+            }
+
+            .category-tab {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                padding: 120px 5% 60px;
+            }
+
+            .menu-section {
+                padding: 3rem 5%;
+            }
+
+            .category-tabs {
+                flex-direction: column;
+            }
+
+            .category-tab {
+                width: 100%;
+            }
+
+            .nav-links {
+                width: 80%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .item-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .item-price {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="home.html" class="logo">I <span class="heart">Heart</span> Cafe</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="home.html#about">About</a></li>
+                <li><a href="menu.html" class="active">Menu</a></li>
+                <li><a href="home.html#why-choose">Why Us</a></li>
+                <li><a href="order.html" class="order-btn">Order Online</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-content">
+            <p class="page-subtitle">Discover Our Selection</p>
+            <h1 class="page-title">Our Menu</h1>
+            <div class="divider"></div>
+            <p class="page-description">
+                Indulge in our carefully curated collection of premium beverages and artisanal delicacies
+            </p>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section">
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <button class="category-tab active" data-category="hot-beverages">
+                <i class="fas fa-mug-hot"></i> Hot Beverages
+            </button>
+            <button class="category-tab" data-category="cold-beverages">
+                <i class="fas fa-glass-whiskey"></i> Cold Beverages
+            </button>
+            <button class="category-tab" data-category="breakfast">
+                <i class="fas fa-bread-slice"></i> Breakfast
+            </button>
+            <button class="category-tab" data-category="desserts">
+                <i class="fas fa-birthday-cake"></i> Desserts
+            </button>
+            <button class="category-tab" data-category="snacks">
+                <i class="fas fa-cookie"></i> Snacks
+            </button>
+        </div>
+
+        <!-- Hot Beverages -->
+        <div class="menu-category active" id="hot-beverages">
+            <div class="category-header">
+                <h2 class="category-title">Hot Beverages</h2>
+                <div class="divider"></div>
+                <p class="category-description">Warm your soul with our premium coffee and tea selections</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item special-item">
+                    <span class="special-badge">Signature</span>
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-coffee item-icon"></i>Varanasi Special Coffee</h3>
+                        <span class="item-price">₹250</span>
+                    </div>
+                    <p class="item-description">
+                        Single-origin beans with a hint of cardamom and saffron, inspired by the divine city
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Specialty</span>
+                        <span class="tag">Aromatic</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-mug-hot item-icon"></i>Classic Espresso</h3>
+                        <span class="item-price">₹120</span>
+                    </div>
+                    <p class="item-description">
+                        Rich and bold Italian espresso, perfectly extracted for the purest coffee experience
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Strong</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-coffee item-icon"></i>Cappuccino</h3>
+                        <span class="item-price">₹150</span>
+                    </div>
+                    <p class="item-description">
+                        Velvety espresso with steamed milk foam, dusted with cocoa powder
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Creamy</span>
+                        <span class="tag">Popular</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-mug-hot item-icon"></i>Caffe Latte</h3>
+                        <span class="item-price">₹160</span>
+                    </div>
+                    <p class="item-description">
+                        Smooth espresso with steamed milk, topped with delicate latte art
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Smooth</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-coffee item-icon"></i>Mocha Delight</h3>
+                        <span class="item-price">₹180</span>
+                    </div>
+                    <p class="item-description">
+                        Espresso with rich chocolate, steamed milk, and whipped cream
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Chocolate</span>
+                    </div>
+                </div>
+
+                <div class="menu-item special-item">
+                    <span class="special-badge">Chef's Special</span>
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-leaf item-icon"></i>Masala Chai</h3>
+                        <span class="item-price">₹80</span>
+                    </div>
+                    <p class="item-description">
+                        Traditional Indian spiced tea with cardamom, ginger, and our secret blend
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Traditional</span>
+                        <span class="tag">Spiced</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-mug-hot item-icon"></i>English Breakfast Tea</h3>
+                        <span class="item-price">₹100</span>
+                    </div>
+                    <p class="item-description">
+                        Premium black tea blend, perfect for a morning start
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Classic</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-mug-hot item-icon"></i>Hot Chocolate</h3>
+                        <span class="item-price">₹140</span>
+                    </div>
+                    <p class="item-description">
+                        Rich Belgian chocolate with steamed milk and marshmallows
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Sweet</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cold Beverages -->
+        <div class="menu-category" id="cold-beverages">
+            <div class="category-header">
+                <h2 class="category-title">Cold Beverages</h2>
+                <div class="divider"></div>
+                <p class="category-description">Refreshing drinks to cool you down in style</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item special-item">
+                    <span class="special-badge">Bestseller</span>
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-glass-whiskey item-icon"></i>Iced Varanasi Latte</h3>
+                        <span class="item-price">₹220</span>
+                    </div>
+                    <p class="item-description">
+                        Cold brew coffee with cardamom-infused milk and crushed ice
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Signature</span>
+                        <span class="tag">Refreshing</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-ice-cream item-icon"></i>Classic Iced Coffee</h3>
+                        <span class="item-price">₹160</span>
+                    </div>
+                    <p class="item-description">
+                        Chilled espresso over ice with your choice of milk
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Cold</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-blender item-icon"></i>Mango Smoothie</h3>
+                        <span class="item-price">₹180</span>
+                    </div>
+                    <p class="item-description">
+                        Fresh alphonso mango blended with yogurt and honey
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Fruity</span>
+                        <span class="tag">Healthy</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-blender item-icon"></i>Berry Blast Smoothie</h3>
+                        <span class="item-price">₹190</span>
+                    </div>
+                    <p class="item-description">
+                        Mixed berries, banana, and Greek yogurt for a nutritious treat
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Antioxidant</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-glass-martini item-icon"></i>Chocolate Milkshake</h3>
+                        <span class="item-price">₹170</span>
+                    </div>
+                    <p class="item-description">
+                        Creamy Belgian chocolate ice cream blended to perfection
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Indulgent</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-glass-martini item-icon"></i>Vanilla Dream Shake</h3>
+                        <span class="item-price">₹160</span>
+                    </div>
+                    <p class="item-description">
+                        Premium vanilla ice cream with a hint of caramel
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Classic</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-leaf item-icon"></i>Iced Green Tea</h3>
+                        <span class="item-price">₹120</span>
+                    </div>
+                    <p class="item-description">
+                        Refreshing green tea with mint and lemon over ice
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Healthy</span>
+                        <span class="tag">Light</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-lemon item-icon"></i>Fresh Lime Soda</h3>
+                        <span class="item-price">₹90</span>
+                    </div>
+                    <p class="item-description">
+                        Freshly squeezed lime with sparkling water and mint
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Refreshing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breakfast -->
+        <div class="menu-category" id="breakfast">
+            <div class="category-header">
+                <h2 class="category-title">Breakfast</h2>
+                <div class="divider"></div>
+                <p class="category-description">Start your day with our delicious breakfast options</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item special-item">
+                    <span class="special-badge">Popular</span>
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-bread-slice item-icon"></i>Croissant Platter</h3>
+                        <span class="item-price">₹180</span>
+                    </div>
+                    <p class="item-description">
+                        Two buttery croissants with jam, butter, and seasonal fruit
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">French</span>
+                        <span class="tag">Fresh</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-egg item-icon"></i>Classic Eggs Benedict</h3>
+                        <span class="item-price">₹280</span>
+                    </div>
+                    <p class="item-description">
+                        Poached eggs on English muffin with hollandaise sauce and ham
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Continental</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-hamburger item-icon"></i>Club Sandwich</h3>
+                        <span class="item-price">₹240</span>
+                    </div>
+                    <p class="item-description">
+                        Triple-decker sandwich with chicken, bacon, lettuce, and tomato
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Filling</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-bread-slice item-icon"></i>Avocado Toast</h3>
+                        <span class="item-price">₹220</span>
+                    </div>
+                    <p class="item-description">
+                        Smashed avocado on sourdough with poached egg and microgreens
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Healthy</span>
+                        <span class="tag">Trendy</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-bread-slice item-icon"></i>French Toast</h3>
+                        <span class="item-price">₹200</span>
+                    </div>
+                    <p class="item-description">
+                        Thick brioche bread with maple syrup, berries, and whipped cream
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Sweet</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-bowl-rice item-icon"></i>Granola Bowl</h3>
+                        <span class="item-price">₹190</span>
+                    </div>
+                    <p class="item-description">
+                        Homemade granola with Greek yogurt, honey, and fresh fruits
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Nutritious</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-utensils item-icon"></i>Continental Breakfast</h3>
+                        <span class="item-price">₹320</span>
+                    </div>
+                    <p class="item-description">
+                        Eggs your way, toast, bacon, sausage, grilled tomato, and hash browns
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Complete</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-cheese item-icon"></i>Cheese Omelette</h3>
+                        <span class="item-price">₹160</span>
+                    </div>
+                    <p class="item-description">
+                        Fluffy three-egg omelette with mixed cheese and herbs
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Protein</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desserts -->
+        <div class="menu-category" id="desserts">
+            <div class="category-header">
+                <h2 class="category-title">Desserts</h2>
+                <div class="divider"></div>
+                <p class="category-description">Indulge in our heavenly sweet creations</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item special-item">
+                    <span class="special-badge">Signature</span>
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-birthday-cake item-icon"></i>Ganga Tiramisu</h3>
+                        <span class="item-price">₹260</span>
+                    </div>
+                    <p class="item-description">
+                        Italian classic with a Varanasi twist - saffron-infused mascarpone
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Specialty</span>
+                        <span class="tag">Unique</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-cookie item-icon"></i>Chocolate Lava Cake</h3>
+                        <span class="item-price">₹220</span>
+                    </div>
+                    <p class="item-description">
+                        Warm chocolate cake with a molten center, served with vanilla ice cream
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Hot</span>
+                        <span class="tag">Decadent</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-birthday-cake item-icon"></i>New York Cheesecake</h3>
+                        <span class="item-price">₹240</span>
+                    </div>
+                    <p class="item-description">
+                        Creamy cheesecake with berry compote and graham cracker crust
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Classic</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-cookie-bite item-icon"></i>Belgian Waffle</h3>
+                        <span class="item-price">₹200</span>
+                    </div>
+                    <p class="item-description">
+                        Crispy waffle with chocolate sauce, fresh fruits, and whipped cream
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Belgian</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-ice-cream item-icon"></i>Artisan Gelato (3 scoops)</h3>
+                        <span class="item-price">₹180</span>
+                    </div>
+                    <p class="item-description">
+                        Choose from vanilla, chocolate, pistachio, strawberry, or mango
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Italian</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-cookie item-icon"></i>Brownie Sundae</h3>
+                        <span class="item-price">₹210</span>
+                    </div>
+                    <p class="item-description">
+                        Warm chocolate brownie with vanilla ice cream, hot fudge, and nuts
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Indulgent</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-birthday-cake item-icon"></i>Red Velvet Cake</h3>
+                        <span class="item-price">₹190</span>
+                    </div>
+                    <p class="item-description">
+                        Moist red velvet cake with cream cheese frosting
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Popular</span>
+                    </div>
+                </div>
+
+                <div class="menu-item special-item">
+                    <span class="special-badge">New</span>
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-heart item-icon"></i>Saffron Panna Cotta</h3>
+                        <span class="item-price">₹230</span>
+                    </div>
+                    <p class="item-description">
+                        Delicate Italian dessert infused with Kashmiri saffron and rose water
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Fusion</span>
+                        <span class="tag">Elegant</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Snacks -->
+        <div class="menu-category" id="snacks">
+            <div class="category-header">
+                <h2 class="category-title">Snacks</h2>
+                <div class="divider"></div>
+                <p class="category-description">Perfect light bites to accompany your drinks</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-cheese item-icon"></i>Garlic Cheese Toast</h3>
+                        <span class="item-price">₹140</span>
+                    </div>
+                    <p class="item-description">
+                        Toasted bread with garlic butter and melted mozzarella
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Cheesy</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-pizza-slice item-icon"></i>Margherita Pizza</h3>
+                        <span class="item-price">₹280</span>
+                    </div>
+                    <p class="item-description">
+                        Classic Italian pizza with fresh tomatoes, mozzarella, and basil
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Italian</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-drumstick-bite item-icon"></i>Chicken Wings</h3>
+                        <span class="item-price">₹260</span>
+                    </div>
+                    <p class="item-description">
+                        Crispy fried wings with BBQ or buffalo sauce (6 pieces)
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Spicy</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-pepper-hot item-icon"></i>Nachos Supreme</h3>
+                        <span class="item-price">₹240</span>
+                    </div>
+                    <p class="item-description">
+                        Tortilla chips with cheese sauce, salsa, jalapeños, and sour cream
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Mexican</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-cookie item-icon"></i>Fresh Cookies (3 pieces)</h3>
+                        <span class="item-price">₹120</span>
+                    </div>
+                    <p class="item-description">
+                        Chocolate chip, oatmeal raisin, or white chocolate macadamia
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Sweet</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-bread-slice item-icon"></i>Bruschetta</h3>
+                        <span class="item-price">₹180</span>
+                    </div>
+                    <p class="item-description">
+                        Toasted bread topped with tomato, basil, garlic, and olive oil
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Italian</span>
+                        <span class="tag">Fresh</span>
+                    </div>
+                </div>
+
+                <div class="menu-item special-item">
+                    <span class="special-badge">Popular</span>
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-hamburger item-icon"></i>Paneer Tikka Sandwich</h3>
+                        <span class="item-price">₹200</span>
+                    </div>
+                    <p class="item-description">
+                        Grilled paneer tikka with mint chutney in whole wheat bread
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Indian</span>
+                        <span class="tag">Vegetarian</span>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-header">
+                        <h3 class="item-name"><i class="fas fa-seedling item-icon"></i>Veggie Platter</h3>
+                        <span class="item-price">₹220</span>
+                    </div>
+                    <p class="item-description">
+                        Fresh vegetables with hummus, olives, and pita bread
+                    </p>
+                    <div class="item-tags">
+                        <span class="tag">Healthy</span>
+                        <span class="tag">Vegan</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order CTA -->
+    <section class="order-cta">
+        <div class="cta-content">
+            <h2>Ready to Order?</h2>
+            <div class="divider"></div>
+            <p>
+                Experience the luxury of I Heart Cafe from the comfort of your home. Order online for quick delivery or pickup.
+            </p>
+            <a href="order.html" class="btn-large">
+                <i class="fas fa-shopping-cart"></i> Order Online Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-logo">I <span style="color: var(--gold);">Heart</span> Cafe</h3>
+                <p class="footer-description">
+                    Where tradition meets luxury in the heart of Varanasi. Experience the finest coffee culture in India's spiritual capital.
+                </p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Assi Ghat Road, Varanasi<br>Uttar Pradesh, India - 221005</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+91 9876543210</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>hello@iheartcafe.in</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Opening Hours</h3>
+                <ul class="hours-list">
+                    <li>
+                        <span>Monday - Friday</span>
+                        <span>7:00 AM - 11:00 PM</span>
+                    </li>
+                    <li>
+                        <span>Saturday</span>
+                        <span>8:00 AM - 12:00 AM</span>
+                    </li>
+                    <li>
+                        <span>Sunday</span>
+                        <span>8:00 AM - 11:00 PM</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="contact-info">
+                    <li><a href="home.html" style="color: var(--gray); text-decoration: none;">Home</a></li>
+                    <li><a href="menu.html" style="color: var(--gray); text-decoration: none;">Our Menu</a></li>
+                    <li><a href="order.html" style="color: var(--gray); text-decoration: none;">Order Online</a></li>
+                    <li><a href="#" style="color: var(--gray); text-decoration: none;">Reservations</a></li>
+                    <li><a href="#" style="color: var(--gray); text-decoration: none;">Gallery</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 I Heart Cafe. All Rights Reserved. | Designed with <span style="color: var(--gold);">♥</span> in Varanasi</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Category tabs functionality
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const menuCategories = document.querySelectorAll('.menu-category');
+
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and categories
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                menuCategories.forEach(c => c.classList.remove('active'));
+
+                // Add active class to clicked tab
+                tab.classList.add('active');
+
+                // Show corresponding category
+                const categoryId = tab.getAttribute('data-category');
+                document.getElementById(categoryId).classList.add('active');
+
+                // Scroll to menu section
+                document.querySelector('.menu-section').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('active');
+            } else {
+                scrollTopBtn.classList.remove('active');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
